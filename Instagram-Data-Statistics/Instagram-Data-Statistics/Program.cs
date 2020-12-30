@@ -66,6 +66,62 @@ namespace Instagram_Data_Statistics
             Console.WriteLine("\nDone!");
             //convert data to object via jsonconverter
             InstagramData dataFromFile = JsonConvert.DeserializeObject<InstagramData>(likesText);
+
+            //add values to dictionaries
+            AddValueToDic(CommentLikes, dataFromFile.comment_likes);
+            AddValueToDic(MediaLikes, dataFromFile.media_likes);
+
+            //display to user after it is done
+            Console.WriteLine();
+            Console.WriteLine("Done, now to have {0} comment likes and {1} media likes", dataFromFile.comment_likes.Count, dataFromFile.media_likes.Count);
+            Console.WriteLine();
+            LikesType = ChangeLikesType();
+        }
+        static LikesType ChangeLikesType()
+        {
+            while (true)
+            {
+                Console.WriteLine("What likes you'd like to show? \n 1.Comment likes \n 2.Media likes \nPress a number to get started!");
+                var key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.D1)
+                {
+                    return LikesType.Comment;
+                }
+                else if (key.Key == ConsoleKey.D2)
+                {
+                    return LikesType.Media;
+                }
+                Console.SetCursorPosition(0, Console.CursorTop - 4);
+            }
+        }
+        static void AddValueToDic(LikesData likes, List<List<string>> value)
+        {
+            foreach (var like in value)
+            {
+                //store accounts
+                StoreKey(likes.Account, like[1]);
+                //store media likes based on years
+                StoreKey(likes.YearBased, like[0].Substring(0, 4), like[1]);
+            }
+        }
+        static void StoreKey(Dictionary<string, Dictionary<string, int>> dictionary, string mainKey, string secondKey)
+        {
+            if (dictionary.ContainsKey(mainKey))
+            {
+                if (dictionary[mainKey].ContainsKey(secondKey))
+                    dictionary[mainKey][secondKey]++;
+                else
+                    dictionary[mainKey].Add(secondKey, 1);
+            }
+            else
+                dictionary.Add(mainKey, new Dictionary<string, int>() { { secondKey, 1 } });
+        }
+        static void StoreKey(Dictionary<string, int> dictionary, string key)
+        {
+            if (dictionary.ContainsKey(key))
+                dictionary[key]++;
+            else
+                dictionary.Add(key, 1);
         }
     }
 }
