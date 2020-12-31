@@ -113,7 +113,16 @@ namespace Instagram_Data_Statistics
             Console.WriteLine();
             switch (action)
             {
-                case ConsoleKey.D1:
+                case ConsoleKey.D1://show all likes
+                    switch (GetChoice("How do you want to be? \n1.Ordered \n2.Descended ordered", new ConsoleKey[] { ConsoleKey.D1, ConsoleKey.D2 }))
+                    {
+                        case ConsoleKey.D1://ordered
+                            ShowList(CurrentLikes.Account.OrderByDescending(l => l.Value).ToList());
+                            break;
+                        case ConsoleKey.D2://descended ordered
+                            ShowList(CurrentLikes.Account.OrderBy(l => l.Value).ToList());
+                            break;
+                    }
                     break;
                 case ConsoleKey.D2:
                     break;
@@ -130,6 +139,41 @@ namespace Instagram_Data_Statistics
                     Console.Clear();
                     LikesType = ChangeLikesType();
                     break;
+            }
+        }
+        static void ShowList(List<KeyValuePair<string, int>> list)
+        {
+            foreach (var item in list)
+            {
+                if (item.Value == 1)
+                    Console.WriteLine("You liked post from {0} one time", item.Key);
+                else
+                    Console.WriteLine("You liked post from {0} {1} times", item.Key, item.Value);
+            }
+        }
+        static ConsoleKey GetChoice(string QAndA, ConsoleKey[] bounds)
+        {
+            while (true)
+            {
+                Console.WriteLine(QAndA);
+                var keyFromUser = Console.ReadKey(true).Key;
+                foreach (var key in bounds)
+                {
+                    if (key == keyFromUser) return key;
+                }
+                ClearLines(bounds.Length + 1);
+            }
+        }
+        static void ClearLines(int lines = 1)
+        {
+            if (lines > 0)
+            {
+                Console.SetCursorPosition(0, Console.CursorTop - lines);
+                for (int i = 0; i < lines; i++)
+                {
+                    Console.Write(new string(' ', Console.BufferWidth));
+                }
+                Console.SetCursorPosition(0, Console.CursorTop - lines);
             }
         }
         static LikesType ChangeLikesType()
