@@ -76,6 +76,61 @@ namespace Instagram_Data_Statistics
             Console.WriteLine("Done, now to have {0} comment likes and {1} media likes", dataFromFile.comment_likes.Count, dataFromFile.media_likes.Count);
             Console.WriteLine();
             LikesType = ChangeLikesType();
+            while (true)
+            {
+                ShowLikes();
+                Console.WriteLine();
+                while (true)
+                {
+                    Console.WriteLine("What do you want to do next? \n1.I want more \n2.Exit \nPress a number to get started!");
+                    var key = Console.ReadKey(true);
+                    if (key.Key == ConsoleKey.D1)
+                    {
+                        Console.Clear();
+                        break;
+                    }
+                    else if (key.Key == ConsoleKey.D2)
+                    {
+                        Environment.Exit(0);
+                    }
+                    else
+                    {
+                        Console.SetCursorPosition(0, Console.CursorTop - 4);
+                    }
+                }
+            }
+        }
+        static void ShowLikes()
+        {
+            Console.WriteLine();
+            Console.WriteLine("What do you want to do next?" +
+                " \n1.Show all likes" +
+                " \n2.Show just a number of likes" +
+                " \n3.Show likes from an account" +
+                " \n4.Show account, based on likes number" +
+                " \n5.Show likes based on years \nEsc.To exit \nOther key to change likes type");
+            var action = Console.ReadKey(true).Key;
+            Console.WriteLine();
+            switch (action)
+            {
+                case ConsoleKey.D1:
+                    break;
+                case ConsoleKey.D2:
+                    break;
+                case ConsoleKey.D3:
+                    break;
+                case ConsoleKey.D4:
+                    break;
+                case ConsoleKey.D5:
+                    break;
+                case ConsoleKey.Escape:
+                    Environment.Exit(0);
+                    break;
+                default:
+                    Console.Clear();
+                    LikesType = ChangeLikesType();
+                    break;
+            }
         }
         static LikesType ChangeLikesType()
         {
