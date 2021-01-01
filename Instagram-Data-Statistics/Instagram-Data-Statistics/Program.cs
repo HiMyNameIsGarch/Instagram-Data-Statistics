@@ -124,7 +124,17 @@ namespace Instagram_Data_Statistics
                             break;
                     }
                     break;
-                case ConsoleKey.D2:
+                case ConsoleKey.D2://Show just a number of likes
+                    int maxLikes = CurrentLikes.Account.Count;
+                    switch (GetChoice("How do you want to be? \n1.Ordered \n2.Descended ordered", new ConsoleKey[] { ConsoleKey.D1, ConsoleKey.D2 }))
+                    {
+                        case ConsoleKey.D1://ordered
+                            ShowList(CurrentLikes.Account.OrderByDescending(l => l.Value).Take(GetNum($"How many likes you want to show, max: {maxLikes}", maxLikes)).ToList());
+                            break;
+                        case ConsoleKey.D2://descended ordered
+                            ShowList(CurrentLikes.Account.OrderBy(l => l.Value).Take(GetNum($"How many likes you want to show, max: {maxLikes}", maxLikes)).ToList());
+                            break;
+                    }
                     break;
                 case ConsoleKey.D3:
                     break;
@@ -139,6 +149,18 @@ namespace Instagram_Data_Statistics
                     Console.Clear();
                     LikesType = ChangeLikesType();
                     break;
+            }
+        }
+        static int GetNum(string text, int maxValue = int.MaxValue)
+        {
+            Console.WriteLine(text);
+            while (true)
+            {
+                if (int.TryParse(Console.ReadLine(), out int numberOfLikes) && (numberOfLikes > 0 && numberOfLikes <= maxValue))
+                {
+                    return numberOfLikes;
+                }
+                ClearLines();
             }
         }
         static void ShowList(List<KeyValuePair<string, int>> list)
