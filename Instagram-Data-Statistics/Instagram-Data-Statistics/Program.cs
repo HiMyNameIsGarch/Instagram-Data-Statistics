@@ -136,11 +136,85 @@ namespace Instagram_Data_Statistics
                             break;
                     }
                     break;
-                case ConsoleKey.D3:
+                case ConsoleKey.D3://Show likes from an account
+                    string accName = GetValue("Input your account name");
+                    if (CurrentLikes.Account.ContainsKey(accName))
+                        Console.WriteLine("You liked {0} posts {1} times", accName, CurrentLikes.Account[accName]);
+                    else
+                        Console.WriteLine("You account does not exists");
                     break;
-                case ConsoleKey.D4:
+                case ConsoleKey.D4://Show account based on likes number
+                    int likesMax = CurrentLikes.Account.OrderByDescending(s => s.Value).FirstOrDefault().Value;
+                    int likesNum = GetNum($"Input likes number for accounts, max: {likesMax}", likesMax);
+                    var accounts = CurrentLikes.Account.Where(s => s.Value == likesNum);
+                    if (accounts.Count() > 0)
+                    {
+                        Console.WriteLine("Your accounts are:");
+                        foreach (var acc in accounts)
+                        {
+                            Console.WriteLine("   " + acc.Key);
+                        }
+                    }
+                    else
+                        Console.WriteLine("You don't have any accounts with that value of likes");
                     break;
-                case ConsoleKey.D5:
+                case ConsoleKey.D5://Show how many likes in a year
+                    switch (GetChoice("Select one option below! \n1.Show how many likes based on years \n2.Show account likes based on years", new ConsoleKey[] { ConsoleKey.D1, ConsoleKey.D2 }))
+                    {
+                        case ConsoleKey.D1:
+                            Console.WriteLine();
+                            foreach (var year in CurrentLikes.YearBased)
+                            {
+                                int likes = 0;
+                                foreach (var account in year.Value)
+                                {
+                                    likes += account.Value;
+                                }
+                                Console.WriteLine("In {0} you liked {1} posts", year.Key, likes);
+                            }
+                            break;
+                        case ConsoleKey.D2:
+                            Console.WriteLine();
+                            switch (GetChoice("Select one option below! \n1.Show all accounts \n2.Show top accounts (I'll input a number) \n3.Show one account (I'll input the account)", new ConsoleKey[] { ConsoleKey.D1, ConsoleKey.D2, ConsoleKey.D3 }))
+                            {
+                                case ConsoleKey.D1:
+                                    foreach (var year in CurrentLikes.YearBased)
+                                    {
+                                        Console.WriteLine("In {0}:", year.Key);
+                                        Console.WriteLine();
+                                        foreach (var account in year.Value)
+                                        {
+                                            if (account.Value == 1)
+                                                Console.WriteLine("You liked one post from {0}", account.Key);
+                                            else
+                                                Console.WriteLine("You liked {0} posts from {1}", account.Value, account.Key);
+                                        }
+                                    }
+                                    break;
+                                case ConsoleKey.D2:
+                                    int num = GetNum("Input a number of accounts to show!");
+                                    foreach (var year in CurrentLikes.YearBased)
+                                    {
+                                        Console.WriteLine("In {0}:", year.Key);
+                                        ShowList(year.Value.OrderByDescending(s => s.Value).Take(num).ToList());
+                                        Console.WriteLine();
+                                    }
+                                    break;
+                                case ConsoleKey.D3:
+                                    string name = GetValue("Input name of account!");
+                                    foreach (var year in CurrentLikes.YearBased)
+                                    {
+                                        Console.WriteLine("In {0}:", year.Key);
+                                        if (year.Value.ContainsKey(name))
+                                            Console.WriteLine("You liked {0} posts from {1}", year.Value[name], name);
+                                        else
+                                            Console.WriteLine("You did't like any posts of this account!");
+                                        Console.WriteLine();
+                                    }
+                                    break;
+                            }
+                            break;
+                    }
                     break;
                 case ConsoleKey.Escape:
                     Environment.Exit(0);
@@ -149,6 +223,16 @@ namespace Instagram_Data_Statistics
                     Console.Clear();
                     LikesType = ChangeLikesType();
                     break;
+            }
+        }
+        static string GetValue(string text)
+        {
+            while (true)
+            {
+                Console.WriteLine(text);
+                string value = Console.ReadLine();
+                if (!string.IsNullOrEmpty(value)) return value;
+                ClearLines(2);
             }
         }
         static int GetNum(string text, int maxValue = int.MaxValue)
