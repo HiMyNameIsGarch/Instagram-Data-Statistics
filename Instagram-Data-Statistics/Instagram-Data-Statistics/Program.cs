@@ -33,7 +33,18 @@ namespace Instagram_Data_Statistics
             string likesText = string.Empty;
             while (true)
             {
-                PathToJson = Console.ReadLine();
+                string value = string.Empty;
+                while (true)
+                {
+                    value = Console.ReadLine();
+                    if (!string.IsNullOrWhiteSpace(value))
+                    {
+                        PathToJson = value;
+                        break;
+                    }
+                    else
+                        Console.SetCursorPosition(0, Console.CursorTop - 1);
+                }
                 if (!PathToJson.Contains("likes.json"))
                 {
                     char lastC = PathToJson.Last();
@@ -137,26 +148,37 @@ namespace Instagram_Data_Statistics
                     }
                     break;
                 case ConsoleKey.D3://Show likes from an account
-                    string accName = GetValue("Input your account name");
-                    if (CurrentLikes.Account.ContainsKey(accName))
-                        Console.WriteLine("You liked {0} posts {1} times", accName, CurrentLikes.Account[accName]);
-                    else
-                        Console.WriteLine("You account does not exists");
+                    while (true)
+                    {
+                        string accName = GetValue("Input your account name");
+                        if (CurrentLikes.Account.ContainsKey(accName))
+                        {
+                            Console.WriteLine("You liked {0} posts {1} times", accName, CurrentLikes.Account[accName]);
+                            break;
+                        }
+                        else
+                            WaitAndClearLines(2, 1500, "The account doesn't exists, try again...");
+                            
+                    }
                     break;
                 case ConsoleKey.D4://Show account based on likes number
                     int likesMax = CurrentLikes.Account.OrderByDescending(s => s.Value).FirstOrDefault().Value;
-                    int likesNum = GetNum($"Input likes number for accounts, max: {likesMax}", likesMax);
-                    var accounts = CurrentLikes.Account.Where(s => s.Value == likesNum);
-                    if (accounts.Count() > 0)
+                    while (true)
                     {
-                        Console.WriteLine("Your accounts are:");
-                        foreach (var acc in accounts)
+                        int likesNum = GetNum($"Input likes number for accounts, max: {likesMax}", likesMax);
+                        var accounts = CurrentLikes.Account.Where(s => s.Value == likesNum);
+                        if (accounts.Count() > 0)
                         {
-                            Console.WriteLine("   " + acc.Key);
+                            Console.WriteLine("Your accounts are:");
+                            foreach (var acc in accounts)
+                            {
+                                Console.WriteLine("   " + acc.Key);
+                            }
+                            break;
                         }
+                        else
+                            WaitAndClearLines(2, 1500, "You don't have any accounts with that value of likes");
                     }
-                    else
-                        Console.WriteLine("You don't have any accounts with that value of likes");
                     break;
                 case ConsoleKey.D5://Show how many likes in a year
                     switch (GetChoice("Select one option below! \n1.Show how many likes based on years \n2.Show account likes based on years", new ConsoleKey[] { ConsoleKey.D1, ConsoleKey.D2 }))
@@ -201,7 +223,17 @@ namespace Instagram_Data_Statistics
                                     }
                                     break;
                                 case ConsoleKey.D3:
-                                    string name = GetValue("Input name of account!");
+                                    
+                                    string name = string.Empty;
+                                    while (true)
+                                    {
+                                        name = GetValue("Input name of account!");
+                                        if (CurrentLikes.YearBased.ContainsKey(name))
+                                        {
+                                            break;
+                                        }
+                                        WaitAndClearLines(2, 2000, "The account doesn't exists, try again...");
+                                    }
                                     foreach (var year in CurrentLikes.YearBased)
                                     {
                                         Console.WriteLine("In {0}:", year.Key);
@@ -269,6 +301,12 @@ namespace Instagram_Data_Statistics
                 }
                 ClearLines(bounds.Length + 1);
             }
+        }
+        static void WaitAndClearLines(int linesToClear, int timeToWait, string msgToShow)
+        {
+            Console.WriteLine(msgToShow);
+            Thread.Sleep(timeToWait);
+            ClearLines(linesToClear);
         }
         static void ClearLines(int lines = 1)
         {
