@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 
 namespace Instagram_Data_Statistics
@@ -34,9 +33,9 @@ namespace Instagram_Data_Statistics
             foreach (var item in list)
             {
                 if (item.Value == 1)
-                    Console.WriteLine("You liked post from {0} one time", item.Key);
+                    Console.WriteLine("You liked one post from {0} ", item.Key);
                 else
-                    Console.WriteLine("You liked post from {0} {1} times", item.Key, item.Value);
+                    Console.WriteLine("You liked {1} posts from {0}", item.Key, item.Value);
             }
         }
         public static ConsoleKey GetChoice(string QAndA, ConsoleKey[] bounds)
@@ -67,7 +66,7 @@ namespace Instagram_Data_Statistics
                 {
                     Console.Write(new string(' ', Console.BufferWidth));
                 }
-                Console.SetCursorPosition(0, Console.CursorTop - lines);
+                Console.SetCursorPosition(0, Console.CursorTop - (lines - 1));
             }
         }
     }
