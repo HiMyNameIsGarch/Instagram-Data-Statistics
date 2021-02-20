@@ -16,12 +16,22 @@ namespace Instagram_Data_Statistics
                 ClearLines(2);
             }
         }
+        public static string GetValueWithColor(string text, ConsoleColor color)
+        {
+            while (true)
+            {
+                WriteAndColorLine(text, color);
+                string value = Console.ReadLine();
+                if (!string.IsNullOrEmpty(value)) return value;
+                ClearLines(2);
+            }
+        }
         public static int GetNum(string text, int maxValue = int.MaxValue, int minValue = 0)
         {
             Console.WriteLine(text);
             while (true)
             {
-                if (int.TryParse(Console.ReadLine(), out int numberOfLikes) && (numberOfLikes > 0 && numberOfLikes <= maxValue))
+                if (int.TryParse(Console.ReadLine(), out int numberOfLikes) && (numberOfLikes > minValue && numberOfLikes <= maxValue))
                 {
                     return numberOfLikes;
                 }
@@ -87,7 +97,7 @@ namespace Instagram_Data_Statistics
         }
         public static void WaitAndClearLines(int linesToClear, int timeToWait, string msgToShow)
         {
-            Console.WriteLine(msgToShow);
+            WriteAndColorLine(msgToShow, ConsoleColor.Red);
             Thread.Sleep(timeToWait);
             ClearLines(linesToClear);
         }
@@ -102,6 +112,12 @@ namespace Instagram_Data_Statistics
                 }
                 Console.SetCursorPosition(0, Console.CursorTop - (lines - 1));
             }
+        }
+        public static void WriteAndColorLine(string msg, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine(msg);
+            Console.ResetColor();
         }
     }
 }

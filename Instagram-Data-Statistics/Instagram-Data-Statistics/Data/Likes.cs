@@ -8,26 +8,27 @@ namespace Instagram_Data_Statistics.Data
 {
     public class Likes : BaseJsonData<LikesJsonData> , IBaseData
     {
+        private const string Delimitator = "\n------------------------------------------------------------";
         public Likes(string basePath) : base(basePath, "\\likes.json")
         {
         }
         //props
-        public Tuple<Dictionary<string,int> ,Dictionary<string, Dictionary<string, int>>> CurrentValue
+        protected Tuple<Dictionary<string,int>, Dictionary<string, Dictionary<string, int>>> CurrentLikes
         { 
             get
             {
-                return CurrentLikesType == LikesType.Comment ? CommentLikes : MediaLikes;
+                return LikesType == LikesType.Comment ? CommentLikes : MediaLikes;
             }
         }
-        public Tuple<Dictionary<string, int>, Dictionary<string, Dictionary<string, int>>> MediaLikes { get; set; }
-        public Tuple<Dictionary<string, int>, Dictionary<string, Dictionary<string, int>>> CommentLikes { get; set; }
-
-        private LikesType CurrentLikesType = LikesType.Media;
+        private Tuple<Dictionary<string, int>, Dictionary<string, Dictionary<string, int>>> MediaLikes { get; set; }
+        private Tuple<Dictionary<string, int>, Dictionary<string, Dictionary<string, int>>> CommentLikes { get; set; }
+        private LikesType LikesType = LikesType.Media;
         //methods
         public void DisplayOptions()
         {
             while (true)
             {
+                ConsoleHelper.WriteAndColorLine(Delimitator, ConsoleColor.Green);
                 Console.WriteLine("\nWhat do you want to do next?" +
                     " \n1.Show top accounts of all time" +
                     " \n2.Show top accounts per year" +
@@ -36,81 +37,83 @@ namespace Instagram_Data_Statistics.Data
                     " \n5.Show how many posts/comments you liked from a specific account based on year" +
                     " \n6.Show media likes based on year"+
                     " \nEsc.To exit " +
-                    $"\nPress another key to change likes type! Current likes type: {CurrentLikesType}");
+                    $"\nPress another key to change likes type! Current likes type: {LikesType}");
                 var action = Console.ReadKey(true).Key;
                 switch (action)
                 {
                     case ConsoleKey.D1://Show top accounts of all time
-                        int maxValue = CurrentValue.Item1.Count();
-                        var number = ConsoleHelper.GetNum($"\nHow many account do you want to see, max: {maxValue}", maxValue);
-                        ConsoleHelper.ShowList(CurrentValue.Item1, number);
+                        int maxValue = CurrentLikes.Item1.Count;
+                        var number = ConsoleHelper.GetNum($"\n1.How many account do you want to see, max: {maxValue}", maxValue);
+                        ConsoleHelper.ShowList(CurrentLikes.Item1, number);
                         break;
                     case ConsoleKey.D2://Show top accounts per year
-                        var numberYear = ConsoleHelper.GetNum("\nHow many account do you want to see:");
-                        foreach (var year in CurrentValue.Item2)
+                        var numberYear = ConsoleHelper.GetNum("\n2.How many account do you want to see:");
+                        foreach (var year in CurrentLikes.Item2)
                         {
-                            Console.WriteLine("\nTop accounts in {0}:",year.Key);
+                            ConsoleHelper.WriteAndColorLine($"\nTop {numberYear} accounts in {year.Key}: ", ConsoleColor.Cyan);
                             ConsoleHelper.ShowList(year.Value, numberYear);
                         }
                         break;
                     case ConsoleKey.D3://Show top accounts based on year
-                        var response = ConsoleHelper.GetChoice("Pick an year: ", CurrentValue.Item2.Keys.ToArray());
-                        var currentYear3 = CurrentValue.Item2[response].Count;
-                        var accNum = ConsoleHelper.GetNum($"\nHow many account do you want to see, max: {currentYear3}", currentYear3);
-                        Console.WriteLine("In {0}: ", response);
-                        ConsoleHelper.ShowList(CurrentValue.Item2[response], accNum);
+                        var response = ConsoleHelper.GetChoice("\n3.Pick a year: ", CurrentLikes.Item2.Keys.ToArray());
+                        var currentYear3 = CurrentLikes.Item2[response];
+                        var accNum = ConsoleHelper.GetNum($"\nHow many account do you want to see, max: {currentYear3.Count}", currentYear3.Count);
+                        ConsoleHelper.WriteAndColorLine($"In {response}: ", ConsoleColor.Cyan);
+                        ConsoleHelper.ShowList(currentYear3, accNum);
                         break;
                     case ConsoleKey.D4://Show how many posts/comments you liked from a specific account
-                        var name = ConsoleHelper.GetValue("Input your account name: ");
-                        if (CurrentValue.Item1.ContainsKey(name)) 
+                        while (true)
                         {
-                            var likesNum = CurrentValue.Item1[name];
-                            if (likesNum == 1)
-                                Console.WriteLine("You liked one post from {0} ", name);
-                            else
-                                Console.WriteLine("You liked {1} posts from {0}", name, likesNum);
+                            var name = ConsoleHelper.GetValueWithColor("\n4.Input your account name: ", ConsoleColor.Cyan);
+                            if (CurrentLikes.Item1.ContainsKey(name)) 
+                            {
+                                var likesNum = CurrentLikes.Item1[name];
+                                if (likesNum == 1)
+                                    Console.WriteLine("You liked one post from {0} ", name);
+                                else
+                                    Console.WriteLine("You liked {1} posts from {0}", name, likesNum);
+                                break;
+                            }
+                            ConsoleHelper.WaitAndClearLines(4, 2000, "Ooops, that account doesn't exist!");
+                            continue;
                         }
                         break;
                     case ConsoleKey.D5://Show how many posts/comments you liked from a specific account based on year
-                        var responseD5 = ConsoleHelper.GetChoice("Pick an year: ", CurrentValue.Item2.Keys.ToArray());
-                        var currentYearD3 = CurrentValue.Item2[responseD5].Count;
+                        var responseD5 = ConsoleHelper.GetChoice("\n5.Pick an year: ", CurrentLikes.Item2.Keys.ToArray());
                         while (true)
                         {
-                            var nameD5 = ConsoleHelper.GetValue("Input your account name: ");
-                            if (CurrentValue.Item2[responseD5].ContainsKey(nameD5))
+                            var nameD5 = ConsoleHelper.GetValueWithColor("Input your account name: ", ConsoleColor.Cyan);
+                            if (CurrentLikes.Item2[responseD5].ContainsKey(nameD5))
                             {
-                                var likesNum = CurrentValue.Item2[responseD5][nameD5];
+                                var likesNum = CurrentLikes.Item2[responseD5][nameD5];
                                 if (likesNum == 1)
                                     Console.WriteLine("In {1} you liked one post from {0} ", nameD5, responseD5);
                                 else
                                     Console.WriteLine("In {2} you liked {1} posts from {0}", nameD5, likesNum, responseD5);
                                 break;
                             }
-                            ConsoleHelper.WaitAndClearLines(3, 2000, "Ooops, that account doesn't exist!");
+                            ConsoleHelper.WaitAndClearLines(4, 2000, "Ooops, that account doesn't exist!");
                             continue;
                         }
                         break;
-                    case ConsoleKey.D6:
-                        foreach (var year in CurrentValue.Item2)
+                    case ConsoleKey.D6://Show media likes based on year
+                        int sum = 0;
+                        foreach (var year in CurrentLikes.Item2)
                         {
-                            int totalLikes = 0;
-                            var currentYear = CurrentValue.Item2[year.Key];
-                            foreach (var account in currentYear)
-                            {
-                                totalLikes += account.Value;
-                            }
-                            float mediaLikes = totalLikes / currentYear.Count();
-                            Console.WriteLine("In {0} your media likes was: {1}", year.Key, mediaLikes);
+                            sum += CurrentLikes.Item2[year.Key].Count;
                         }
+                        float mediaLikes = sum / CurrentLikes.Item2.Count;
+                        ConsoleHelper.WriteAndColorLine($"\n6.You liked near {mediaLikes} posts in a single year!", ConsoleColor.Blue);
                         break;
                     case ConsoleKey.Escape:
                         Environment.Exit(0);
                         return;
                     default:
                         Console.Clear();
-                        CurrentLikesType = CurrentLikesType == LikesType.Media ? LikesType.Comment : LikesType.Media;
+                        LikesType = LikesType == LikesType.Media ? LikesType.Comment : LikesType.Media;
                         continue;
                 }
+                ConsoleHelper.WriteAndColorLine(Delimitator, ConsoleColor.Green);
                 var respone = ConsoleHelper.GetChoice("\nDone, Choose what you wanna do next: \n1.I want more on likes data type \n2.Take me back to main menu \nEsc. Exit application",
                            new ConsoleKey[] { ConsoleKey.D1, ConsoleKey.D2, ConsoleKey.Escape });
                 if (respone == ConsoleKey.D1)
@@ -121,11 +124,12 @@ namespace Instagram_Data_Statistics.Data
                     Environment.Exit(0);
             }
         }
-
         public void OrganizeDataFromObject()
         {
-            MediaLikes = StoreData(Data.media_likes);
-            CommentLikes = StoreData(Data.comment_likes);
+            if(MediaLikes is null)
+                MediaLikes = StoreData(Data.media_likes);
+            if(CommentLikes is null)
+                CommentLikes = StoreData(Data.comment_likes);
         }
         private Tuple<Dictionary<string, int>, Dictionary<string, Dictionary<string, int>>> StoreData(List<List<string>> data)
         {
