@@ -11,6 +11,7 @@ namespace Instagram_Data_Statistics.DataFromJson
             PathToJson = basePath + fileName;
             ReadText();
         }
+        public const string Delimitator = "\n------------------------------------------------------------";
         public string PathToJson { get; protected set; }
         public string DataFromFile { get; protected set; }
         public K Data { get; private set; }

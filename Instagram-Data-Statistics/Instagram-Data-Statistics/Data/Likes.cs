@@ -8,7 +8,6 @@ namespace Instagram_Data_Statistics.Data
 {
     public class Likes : BaseJsonData<LikesJsonData> , IBaseData
     {
-        private const string Delimitator = "\n------------------------------------------------------------";
         public Likes(string basePath) : base(basePath, "\\likes.json")
         {
         }

@@ -10,7 +10,7 @@ namespace Instagram_Data_Statistics
         {
             Console.WriteLine("Hello, first of all you need to put the full path of your folder with your Instagram data, it shoud look like this:\nC:\\Users\\your username\\Desktop\\InstagramData");
 
-            string basePath = @"D:\Data about social accounts\instagram";//Console.ReadLine();
+            string basePath = @"";//Console.ReadLine();
             Console.WriteLine("\nGood!\nNow choose what type of data do you wanna see.\n");
             Console.WriteLine("1.Likes (posts and comments that you liked)\n" +
                 "2.Account history (login history and registration info)\n" +
@@ -31,6 +31,7 @@ namespace Instagram_Data_Statistics
                     baseData = new Likes(basePath);
                     break;
                 case ConsoleKey.D2:
+                    baseData = new AccountHistory(basePath);
                     break;
                 case ConsoleKey.D3:
                     break;
