@@ -62,6 +62,13 @@ namespace Instagram_Data_Statistics
                     return;
             }
         }
+        public static void ShowList(IEnumerable<string> list)
+        {
+            foreach (var item in list)
+            {
+                Console.WriteLine("\"{0}\"", item);
+            }
+        }
         public static ConsoleKey GetChoice(string question, ConsoleKey[] bounds)
         {
             while (true)

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Instagram_Data_Statistics.DataFromJson
 {
-    public class AccHistoryData
+    public class AccHistoryJsonData
     {
         public IEnumerable<LoggerModel> login_history { get; set; }
         public IEnumerable<LoggerModel> logout_history { get; set; }

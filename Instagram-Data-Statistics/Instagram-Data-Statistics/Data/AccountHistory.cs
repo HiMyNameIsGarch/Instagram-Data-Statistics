@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Instagram_Data_Statistics.Data
 {
-    public class AccountHistory : BaseJsonData<AccHistoryData>, IBaseData
+    public class AccountHistory : BaseJsonData<AccHistoryJsonData>, IBaseData
     {
         public AccountHistory(string basePath) : base(basePath, "\\account_history.json")
         {
