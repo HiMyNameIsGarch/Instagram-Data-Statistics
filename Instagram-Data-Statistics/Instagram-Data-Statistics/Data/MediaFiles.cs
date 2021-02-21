@@ -7,7 +7,7 @@ namespace Instagram_Data_Statistics.Data
 {
     public class MediaFiles : BaseJsonData<MediaJsonData>, IBaseData
     {
-        public MediaFiles(string basePath) : base(basePath, "\\media.json")
+        public MediaFiles(string basePath) : base(basePath, "media")
         {
         }
         private string AdditionalInformation;

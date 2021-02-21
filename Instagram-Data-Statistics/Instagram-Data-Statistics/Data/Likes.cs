@@ -8,7 +8,7 @@ namespace Instagram_Data_Statistics.Data
 {
     public class Likes : BaseJsonData<LikesJsonData> , IBaseData
     {
-        public Likes(string basePath) : base(basePath, "\\likes.json")
+        public Likes(string basePath) : base(basePath, "likes")
         {
         }
         //props

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace Instagram_Data_Statistics.DataFromJson
 {
@@ -9,16 +10,40 @@ namespace Instagram_Data_Statistics.DataFromJson
     {
         public BaseJsonData(string basePath, string fileName)
         {
+            //make sure that the path to file is correct
+            if(basePath.Last() != '\\')
+            {
+                basePath += "\\";
+            }
+            if (fileName.StartsWith("\\"))
+            {
+                fileName = fileName.Remove(0, 1);
+            }
+            if (!fileName.Contains(FileExtension))
+            {
+                fileName += FileExtension;
+            }
             PathToJson = basePath + fileName;
             ReadText();
         }
+        private const string FileExtension = ".json";
         public const string Delimitator = "\n------------------------------------------------------------";
         public string PathToJson { get; protected set; }
         public string DataFromFile { get; protected set; }
         public K Data { get; private set; }
         public void DeserializeJson()
         {
-            var dataFromFile = JsonConvert.DeserializeObject<K>(DataFromFile);
+            K dataFromFile = default(K);
+            try
+            {
+                dataFromFile = JsonConvert.DeserializeObject<K>(DataFromFile);
+            }
+            catch
+            {
+                ConsoleHelper.WriteAndColorLine("We could not deserialize the object, that can be caused by modifying it or Instagram changing its structure (if that please leave an issue on Github!) \nPress any key to exit!", ConsoleColor.Red);
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
             Data = dataFromFile;
         }
         public void ReadText()
@@ -29,6 +54,9 @@ namespace Instagram_Data_Statistics.DataFromJson
                 DataFromFile = File.ReadAllText(PathToJson);
                 DeserializeJson();
             }
+            ConsoleHelper.WriteAndColorLine("\nThe file does not exist double check for the path to it! \nPress any key to exit!", ConsoleColor.Red);
+            Console.ReadKey();
+            Environment.Exit(0);
         }
         protected ConsoleKey WantUserToContinue(string optionName)
         {

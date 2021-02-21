@@ -7,7 +7,7 @@ namespace Instagram_Data_Statistics.Data
 {
     public class MediaComments : BaseJsonData<CommentsJsonData>, IBaseData
     {
-        public MediaComments(string basePath) : base(basePath, "\\comments.json")
+        public MediaComments(string basePath) : base(basePath, "comments")
         {
         }
         private int TotalComments;
