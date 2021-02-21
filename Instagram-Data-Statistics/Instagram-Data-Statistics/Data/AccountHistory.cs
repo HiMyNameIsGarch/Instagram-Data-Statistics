@@ -24,11 +24,7 @@ namespace Instagram_Data_Statistics.Data
                 {
                     case ConsoleKey.D1:
                         Console.WriteLine("\n1.Your username was: {0}", Data.registration_info.registration_username);
-                        var success = DateTime.TryParse(Data.registration_info.registration_time, out DateTime dateTime);
-                        if (success)
-                        {
-                            Console.WriteLine("You registered your account on: {0}", dateTime.ToLongDateString());
-                        }
+                        Console.WriteLine("You registered your account on: {0}", ConvertToDateTimeString(Data.registration_info.registration_time));
                         Console.WriteLine("Your email was: {0}", Data.registration_info.registration_email);
                         Console.WriteLine("Your phone number was: {0}", Data.registration_info.registration_phone_number);
                         Console.WriteLine("Your device name was: {0}", Data.registration_info.device_name);
@@ -44,8 +40,7 @@ namespace Instagram_Data_Statistics.Data
                         continue;
                 }
                 ConsoleHelper.WriteAndColorLine(Delimitator, ConsoleColor.Green);
-                var respone = ConsoleHelper.GetChoice("\nDone, Choose what you wanna do next: \n1.I want more on account history \n2.Take me back to main menu \nEsc. Exit application",
-                                    new ConsoleKey[] { ConsoleKey.D1, ConsoleKey.D2, ConsoleKey.Escape });
+                var respone = WantUserToContinue("account history");
                 if (respone == ConsoleKey.D1)
                     continue;
                 else if (respone == ConsoleKey.D2)

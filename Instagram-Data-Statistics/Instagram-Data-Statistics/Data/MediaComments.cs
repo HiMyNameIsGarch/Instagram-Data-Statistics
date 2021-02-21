@@ -96,8 +96,7 @@ namespace Instagram_Data_Statistics.Data
                         continue;
                 }
                 ConsoleHelper.WriteAndColorLine(Delimitator, ConsoleColor.Green);
-                var respone = ConsoleHelper.GetChoice("\nDone, Choose what you wanna do next: \n1.I want more on account history \n2.Take me back to main menu \nEsc. Exit application",
-                                    new ConsoleKey[] { ConsoleKey.D1, ConsoleKey.D2, ConsoleKey.Escape });
+                var respone = WantUserToContinue("media comments");
                 if (respone == ConsoleKey.D1)
                     continue;
                 else if (respone == ConsoleKey.D2)

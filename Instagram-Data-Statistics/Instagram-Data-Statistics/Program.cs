@@ -15,7 +15,7 @@ namespace Instagram_Data_Statistics
             Console.WriteLine("1.Likes (posts and comments that you liked)\n" +
                 "2.Account history (login history and registration info)\n" +
                 "3.Comments (all comments that you typed)\n" +
-                "4.Media (includes all the files that you sent (stories, profile pictures, photos, videos, direct)\n" +
+                "4.Media (includes all the files that you sent (stories, profile pictures, photos, videos)\n" +
                 "5.Connections (all blocked users, follow request send, permanent follow request, followers, following, hastags, dimissed suggested user)\n" +
                 "6.Messages\n" +
                 "7.Saved (collections and media)\n" +
@@ -37,6 +37,7 @@ namespace Instagram_Data_Statistics
                     baseData = new MediaComments(basePath);
                     break;
                 case ConsoleKey.D4:
+                    baseData = new MediaFiles(basePath);
                     break;
                 case ConsoleKey.D5:
                     break;
