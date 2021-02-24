@@ -53,6 +53,7 @@ namespace Instagram_Data_Statistics.DataFromJson
                 //read data from file
                 DataFromFile = File.ReadAllText(PathToJson);
                 DeserializeJson();
+                return;
             }
             ConsoleHelper.WriteAndColorLine("\nThe file does not exist double check for the path to it! \nPress any key to exit!", ConsoleColor.Red);
             Console.ReadKey();

@@ -1,4 +1,5 @@
 ﻿using Instagram_Data_Statistics.DataFromJson;
+using Instagram_Data_Statistics.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,21 +46,21 @@ namespace Instagram_Data_Statistics.Data
                             case ConsoleKey.D2://photos
                                 if (yearData.photos.Count > 0)
                                 {
-                                    maxNum = ConsoleHelper.GetNum($"\nHow many photos do you want to see, max: {yearData.stories.Count}", yearData.stories.Count);
+                                    maxNum = ConsoleHelper.GetNum($"\nHow many photos do you want to see, max: {yearData.photos.Count}", yearData.photos.Count);
                                     list = yearData.photos;
                                 }
                                 break;
                             case ConsoleKey.D3://profile photos
                                 if (yearData.profile.Count > 0)
                                 {
-                                    maxNum = ConsoleHelper.GetNum($"\nHow many profile photos do you want to see, max: {yearData.stories.Count}", yearData.stories.Count);
+                                    maxNum = ConsoleHelper.GetNum($"\nHow many profile photos do you want to see, max: {yearData.profile.Count}", yearData.profile.Count);
                                     list = yearData.profile;
                                 }
                                 break;
                             case ConsoleKey.D4://videos
                                 if (yearData.videos.Count > 0)
                                 {
-                                    maxNum = ConsoleHelper.GetNum($"\nHow many videos do you want to see, max: {yearData.stories.Count}", yearData.stories.Count);
+                                    maxNum = ConsoleHelper.GetNum($"\nHow many videos do you want to see, max: {yearData.videos.Count}", yearData.videos.Count);
                                     list = yearData.videos;
                                 }
                                 break;
@@ -117,43 +118,23 @@ namespace Instagram_Data_Statistics.Data
         private SortedDictionary<string, MediaJsonData> StoreData(MediaJsonData data)
         {
             var baseDic = new SortedDictionary<string, MediaJsonData>();
-            //add stories
-            foreach (var story in data.stories)
-            {
-                var year = story.taken_at.Substring(0, 4);
-                if (baseDic.ContainsKey(year))
-                    baseDic[year].stories.Add(story);
-                else
-                    baseDic.Add(year, new MediaJsonData() { stories = new List<MediaModel>() { story } });
-            }
-            //add stories
-            foreach (var photo in data.photos)
-            {
-                var year = photo.taken_at.Substring(0, 4);
-                if (baseDic.ContainsKey(year))
-                    baseDic[year].photos.Add(photo);
-                else
-                    baseDic.Add(year, new MediaJsonData() { photos = new List<MediaModel>() { photo } });
-            }
-            //add stories
-            foreach (var profilePhoto in data.profile)
-            {
-                var year = profilePhoto.taken_at.Substring(0, 4);
-                if (baseDic.ContainsKey(year))
-                    baseDic[year].profile.Add(profilePhoto);
-                else
-                    baseDic.Add(year, new MediaJsonData() { profile = new List<MediaModel>() { profilePhoto } });
-            }
-            //add stories
-            foreach (var video in data.videos)
-            {
-                var year = video.taken_at.Substring(0, 4);
-                if (baseDic.ContainsKey(year))
-                    baseDic[year].videos.Add(video);
-                else
-                    baseDic.Add(year, new MediaJsonData() { videos = new List<MediaModel>() { video } });
-            }
+            baseDic = AddListToDic(data.stories, MediaType.Stories, baseDic);
+            baseDic = AddListToDic(data.photos, MediaType.Photos, baseDic);
+            baseDic = AddListToDic(data.profile, MediaType.Profile, baseDic);
+            baseDic = AddListToDic(data.videos, MediaType.Videos, baseDic);
             return baseDic;
+        }
+        private SortedDictionary<string, MediaJsonData> AddListToDic(ICollection<MediaModel> list, MediaType type, SortedDictionary<string, MediaJsonData> dic)
+        {
+            foreach (var item in list)
+            {
+                var year = item.taken_at.Substring(0, 4);
+                if (dic.ContainsKey(year))
+                    dic[year].Add(item, type);
+                else
+                    dic.Add(year, new MediaJsonData(item,type));
+            }
+            return dic;
         }
     }
 }

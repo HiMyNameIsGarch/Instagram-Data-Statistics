@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using Instagram_Data_Statistics.Data;
+using Newtonsoft.Json;
 
 namespace Instagram_Data_Statistics
 {
@@ -11,6 +12,7 @@ namespace Instagram_Data_Statistics
             Console.WriteLine("Hello, first of all you need to put the full path of your folder with your Instagram data, it shoud look like this:\nC:\\Users\\your username\\Desktop\\InstagramData");
 
             string basePath = @"C:\Users\gabri\Desktop\Darta";//Console.ReadLine();
+
             Console.WriteLine("\nGood!\nNow choose what type of data do you wanna see.\n");
             Console.WriteLine("1.Likes (posts and comments that you liked)\n" +
                 "2.Account history (login history and registration info)\n" +
@@ -40,6 +42,7 @@ namespace Instagram_Data_Statistics
                     baseData = new MediaFiles(basePath);
                     break;
                 case ConsoleKey.D5:
+                    baseData = new Connections(basePath);
                     break;
                 case ConsoleKey.D6:
                     break;
@@ -50,6 +53,7 @@ namespace Instagram_Data_Statistics
                 case ConsoleKey.D9:
                     break;
                 case ConsoleKey.D0:
+                    baseData = new Stories(basePath);
                     break;
                 case ConsoleKey.Escape:
                     Environment.Exit(0);
