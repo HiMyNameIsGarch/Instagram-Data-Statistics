@@ -1,9 +1,7 @@
 ﻿using Instagram_Data_Statistics.DataFromJson;
 using Instagram_Data_Statistics.Enums;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Instagram_Data_Statistics.Data
 {
@@ -11,7 +9,6 @@ namespace Instagram_Data_Statistics.Data
     {
         public Stories(string basePath) : base(basePath, "stories_activities")
         {
-
         }
         private string AdditionalInformation = string.Empty;
         private StoryType StoryType = StoryType.Countdowns;

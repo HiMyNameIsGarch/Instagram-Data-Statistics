@@ -139,10 +139,11 @@ namespace Instagram_Data_Statistics.Data
                 var secondKey = like[1];
                 if (yearLikesDic.ContainsKey(mainKey))
                 {
-                    if (yearLikesDic[mainKey].ContainsKey(secondKey))
-                        yearLikesDic[mainKey][secondKey]++;
+                    var currentYear = yearLikesDic[mainKey];
+                    if (currentYear.ContainsKey(secondKey))
+                        currentYear[secondKey]++;
                     else
-                        yearLikesDic[mainKey].Add(secondKey, 1);
+                        currentYear.Add(secondKey, 1);
                 }
                 else
                     yearLikesDic.Add(mainKey, new Dictionary<string, int>() { { secondKey, 1 } });

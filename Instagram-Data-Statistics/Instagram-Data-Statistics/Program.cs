@@ -21,9 +21,8 @@ namespace Instagram_Data_Statistics
                 "5.Connections (all blocked users, follow request send, permanent follow request, followers, following, hastags, dimissed suggested user)\n" +
                 "6.Messages\n" +
                 "7.Saved (collections and media)\n" +
-                "8.Searched content (all accounts that you searched)\n" +
-                "9.Seen content (all posts that you saw)\n" +
-                "0.Stories (polls, emoji sliders, questions, countdowns, quizzes)\n" +
+                "8.Seen content (all posts that you saw)\n" +
+                "9.Stories (polls, emoji sliders, questions, countdowns, quizzes)\n" +
                 "Esc. To exit!");
             var response = Console.ReadKey(true).Key;
             IBaseData baseData = null;
@@ -49,10 +48,9 @@ namespace Instagram_Data_Statistics
                 case ConsoleKey.D7:
                     break;
                 case ConsoleKey.D8:
+                    baseData = new SeenContent(basePath);
                     break;
                 case ConsoleKey.D9:
-                    break;
-                case ConsoleKey.D0:
                     baseData = new Stories(basePath);
                     break;
                 case ConsoleKey.Escape:

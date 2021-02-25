@@ -18,10 +18,10 @@ namespace Instagram_Data_Statistics.DataFromJson
         //functions
         public void AddDictionary(Dictionary<string,string> dic, ConnectionType type)
         {
+            var currentData = GetCurrentUsers(type);
             foreach (var item in dic)
             {
                 var year = item.Value.Substring(0,4);
-                var currentData = GetCurrentUsers(type);
                 if (currentData.ContainsKey(year))
                     currentData[year].Add(item.Key);
                 else
