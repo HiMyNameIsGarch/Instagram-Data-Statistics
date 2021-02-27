@@ -130,16 +130,16 @@ namespace Instagram_Data_Statistics.Data
                         }
                         break;
                     case ConsoleKey.D3:
-                        var mostActiveYear = GetMostActiveYear(data);
+                        var mostActiveYear = StatsHelper.GetMostActiveYear<string>(data); //GetMostActiveYear(data);
                         Console.WriteLine("\n3.{0} was the year with the most activity with a value of {1}", mostActiveYear.Item1, mostActiveYear.Item2);
                         break;
                     case ConsoleKey.D4:
-                        var lessActiveYear = GetLessActiveYear(data);
+                        var lessActiveYear = StatsHelper.GetLessActiveYear<string>(data);
                         Console.WriteLine("\n4.{0} was the year with the less activity with a value of {1}", lessActiveYear.Item1, lessActiveYear.Item2);
                         break;
                     case ConsoleKey.D5:
-                        var lessActiveYearD5 = GetLessActiveYear(data);
-                        var mostActiveYearD5 = GetMostActiveYear(data);
+                        var lessActiveYearD5 = StatsHelper.GetLessActiveYear<string>(data);
+                        var mostActiveYearD5 = StatsHelper.GetMostActiveYear<string>(data);
                         Console.WriteLine("\n5.{0} was the year with the most activity with a value of {1} \nAnd {2} was the year with the less activity with a value of {3}!", 
                             mostActiveYearD5.Item1, mostActiveYearD5.Item2, lessActiveYearD5.Item1, lessActiveYearD5.Item2);
                         break;
@@ -164,30 +164,6 @@ namespace Instagram_Data_Statistics.Data
                 $"\nYou blocked {Data.blocked_users.Count} users.";
 
             UserData = StoreData(Data);
-        }
-        private Tuple<string, int> GetMostActiveYear(Dictionary<string, ICollection<string>> value)
-        {
-            KeyValuePair<string, ICollection<string>> currentValue = value.First();
-            foreach (var year in value)
-            {
-                if(year.Value.Count > currentValue.Value.Count)
-                {
-                    currentValue = year;
-                }
-            }
-            return new Tuple<string, int>(currentValue.Key, currentValue.Value.Count);
-        }
-        private Tuple<string,int> GetLessActiveYear(Dictionary<string, ICollection<string>> value)
-        {
-            KeyValuePair<string, ICollection<string>> currentValue = value.First();
-            foreach (var year in value)
-            {
-                if (year.Value.Count < currentValue.Value.Count)
-                {
-                    currentValue = year;
-                }
-            }
-            return new Tuple<string, int>(currentValue.Key, currentValue.Value.Count);
         }
         private bool FindAccountIn(ICollection<string> list, string account)
         {

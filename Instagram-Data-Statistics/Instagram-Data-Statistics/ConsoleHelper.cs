@@ -84,6 +84,7 @@ namespace Instagram_Data_Statistics
         }
         public static string GetChoice(string question, string[] options)
         {
+            if (options.Length < 2 && options.Length > 0) return options[0];
             Console.WriteLine(question);
             foreach (var option in options)
             {
