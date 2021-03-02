@@ -28,13 +28,14 @@ namespace Instagram_Data_Statistics.Data
             while (true)
             {
                 ConsoleHelper.WriteAndColorLine(Delimitator, ConsoleColor.Green);
+                ConsoleHelper.WriteAndColorLine(AdditionalInformation, ConsoleColor.Cyan);
                 Console.WriteLine("\nWhat do you want to do next?" +
                     " \n1.Show top accounts of all time" +
                     " \n2.Show top accounts per year" +
                     " \n3.Show top accounts based on year" +
                     " \n4.Show how many posts/comments you liked from a specific account" +
                     " \n5.Show how many posts/comments you liked from a specific account based on year" +
-                    " \n6.Show media likes based on year"+
+                    " \n6.Show media likes based on years"+
                     " \n7.Go to main menu"+
                     " \nEsc.To exit " +
                     $"\nPress another key to change likes type! Current likes type: {LikesType}");
@@ -129,6 +130,7 @@ namespace Instagram_Data_Statistics.Data
         }
         public void OrganizeDataFromObject()
         {
+            AdditionalInformation = $"\nYou liked {Data.media_likes.Count} posts and {Data.comment_likes.Count} comments a total of {Data.media_likes.Count + Data.comment_likes.Count} likes!";
             if(MediaLikes is null)
                 MediaLikes = StoreData(Data.media_likes);
             if(CommentLikes is null)
