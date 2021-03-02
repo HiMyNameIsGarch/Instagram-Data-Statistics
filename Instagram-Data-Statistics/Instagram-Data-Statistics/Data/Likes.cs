@@ -35,6 +35,7 @@ namespace Instagram_Data_Statistics.Data
                     " \n4.Show how many posts/comments you liked from a specific account" +
                     " \n5.Show how many posts/comments you liked from a specific account based on year" +
                     " \n6.Show media likes based on year"+
+                    " \n7.Go to main menu"+
                     " \nEsc.To exit " +
                     $"\nPress another key to change likes type! Current likes type: {LikesType}");
                 var action = Console.ReadKey(true).Key;
@@ -64,6 +65,7 @@ namespace Instagram_Data_Statistics.Data
                         while (true)
                         {
                             var name = ConsoleHelper.GetValueWithColor("\n4.Input your account name: ", ConsoleColor.Cyan);
+                            if (name == ExitKeyword) break;
                             if (CurrentLikes.Item1.ContainsKey(name)) 
                             {
                                 var likesNum = CurrentLikes.Item1[name];
@@ -82,6 +84,7 @@ namespace Instagram_Data_Statistics.Data
                         while (true)
                         {
                             var nameD5 = ConsoleHelper.GetValueWithColor("Input your account name: ", ConsoleColor.Cyan);
+                            if (nameD5 == ExitKeyword) break;
                             if (CurrentLikes.Item2[responseD5].ContainsKey(nameD5))
                             {
                                 var likesNum = CurrentLikes.Item2[responseD5][nameD5];
@@ -104,6 +107,8 @@ namespace Instagram_Data_Statistics.Data
                         float mediaLikes = sum / CurrentLikes.Item2.Count;
                         ConsoleHelper.WriteAndColorLine($"\n6.You liked near {mediaLikes} posts in a single year!", ConsoleColor.Blue);
                         break;
+                    case ConsoleKey.D7:
+                        return;
                     case ConsoleKey.Escape:
                         Environment.Exit(0);
                         return;

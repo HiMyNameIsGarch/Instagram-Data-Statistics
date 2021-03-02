@@ -24,7 +24,7 @@ namespace Instagram_Data_Statistics
                     "7.Saved (collections and media)\n" +
                     "8.Seen content (all posts that you saw)\n" +
                     "9.Stories (polls, emoji sliders, questions, countdowns, quizzes)\n" +
-                    "Esc. To exit!");
+                    "Esc.Exit application");
                 var response = Console.ReadKey(true).Key;
                 IBaseData baseData = null;
                 switch (response)

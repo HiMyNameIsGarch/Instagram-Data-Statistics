@@ -28,6 +28,7 @@ namespace Instagram_Data_Statistics.Data
                     "\n5.Following Hashtags" +
                     "\n6.Dismissed Suggested Users" +
                     "\n7.Blocked Users" +
+                    "\n8.Go to main menu"+
                     "\nEsc. Exit Application");
                 var action = Console.ReadKey(true).Key;
                 switch (action)
@@ -53,6 +54,8 @@ namespace Instagram_Data_Statistics.Data
                     case ConsoleKey.D7:
                         CurrentConnectionType = ConnectionType.BlockedUsers;
                         break;
+                    case ConsoleKey.D8:
+                        return;
                     case ConsoleKey.Escape:
                         Environment.Exit(0);
                         break;
@@ -80,11 +83,9 @@ namespace Instagram_Data_Statistics.Data
                 Console.WriteLine("\nWhat do you want to do next? " +
                     "\n1.Search for an account " +
                     "\n2.Search for an account in a specific year " +
-                    "\n3.Show year with most activity" +
-                    "\n4.Show year with less activiy" + 
-                    "\n5.Show both years (most/less) activity" +
-                    "\n6.Go back to connections type" +
-                    " \nEsc. Exit Application");
+                    "\n3.See stats based on years" +
+                    "\n4.Go back to connections type" +
+                    "\nEsc. Exit Application");
                 var action = Console.ReadKey(true).Key;
                 switch (action)
                 {
@@ -92,6 +93,7 @@ namespace Instagram_Data_Statistics.Data
                         while (true)
                         {
                             var name = ConsoleHelper.GetValue("\n1.Input an account name");
+                            if (name == ExitKeyword) break;
                             bool accFound = false;
                             foreach (var year in data)
                             {
@@ -117,6 +119,7 @@ namespace Instagram_Data_Statistics.Data
                         while (true)
                         {
                             var name = ConsoleHelper.GetValue("Input an account name");
+                            if (name == ExitKeyword) break;
                             if (FindAccountIn(data[response], name))
                             {
                                 ConsoleHelper.WriteAndColorLine("Account Found!", ConsoleColor.Green);
@@ -130,20 +133,12 @@ namespace Instagram_Data_Statistics.Data
                         }
                         break;
                     case ConsoleKey.D3:
-                        var mostActiveYear = StatsHelper.GetMostActiveYear<string>(data); //GetMostActiveYear(data);
-                        Console.WriteLine("\n3.{0} was the year with the most activity with a value of {1}", mostActiveYear.Item1, mostActiveYear.Item2);
-                        break;
-                    case ConsoleKey.D4:
-                        var lessActiveYear = StatsHelper.GetLessActiveYear<string>(data);
-                        Console.WriteLine("\n4.{0} was the year with the less activity with a value of {1}", lessActiveYear.Item1, lessActiveYear.Item2);
-                        break;
-                    case ConsoleKey.D5:
                         var lessActiveYearD5 = StatsHelper.GetLessActiveYear<string>(data);
                         var mostActiveYearD5 = StatsHelper.GetMostActiveYear<string>(data);
-                        Console.WriteLine("\n5.{0} was the year with the most activity with a value of {1} \nAnd {2} was the year with the less activity with a value of {3}!", 
+                        Console.WriteLine("\n5.{0} was the year with the most activity with a value of {1} \n{2} was the year with the less activity with a value of {3}!", 
                             mostActiveYearD5.Item1, mostActiveYearD5.Item2, lessActiveYearD5.Item1, lessActiveYearD5.Item2);
                         break;
-                    case ConsoleKey.D6:
+                    case ConsoleKey.D4:
                         return;
                     case ConsoleKey.Escape:
                         Environment.Exit(0);

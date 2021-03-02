@@ -21,45 +21,39 @@ namespace Instagram_Data_Statistics.Data
             {
                 ConsoleHelper.WriteAndColorLine(Delimitator, ConsoleColor.Green);
                 Console.WriteLine($"\nYou have a total of {TotalComments} comments, what do you want to do next? " +
-                    "\n1.Show longest comment" +
-                    "\n2.Show shortest comment" +
-                    "\n3.Show both longest / shortest comment" +
-                    "\n4.Show top accounts with most comments" +
-                    "\n5.Show top accounts with most comments in a specific year" +
-                    "\n6.Show comments based on an account" +
-                    "\n7.Show comments based on an account in a specific year" +
+                    "\n1.Show longest and shortest comment" +
+                    "\n2.Show top accounts with most comments" +
+                    "\n3.Show top accounts with most comments in a specific year" +
+                    "\n4.Show comments based on an account" +
+                    "\n5.Show comments based on an account in a specific year" +
+                    "\n6.Go to main menu" +
                     "\nEsc. Exit application");
                 var action = Console.ReadKey(true).Key;
                 switch (action)
                 {
-                    case ConsoleKey.D1://Show longest comment
-                        Console.WriteLine("\n1.Your longest comment is: \n\"{0}\" \nOn account: \"{1}\"", LongestComment.Item2, LongestComment.Item1);
+                    case ConsoleKey.D1://Show both longest / shortest comment
+                        Console.WriteLine($"\n1. Your longest comments is \n\"{LongestComment.Item2}\" \nOn account: \"{LongestComment.Item1}\" " +
+                            $"\nYour shortest comments is \n\"{ShortestComment.Item2}\" \nOn account: \"{ShortestComment.Item1}\"");
                         break;
-                    case ConsoleKey.D2://Show shortest comment
-                        Console.WriteLine("\n2.Your shortest comment is: \n\"{0}\" \nOn account: \"{1}\"", ShortestComment.Item2, ShortestComment.Item1);
-                        break;
-                    case ConsoleKey.D3://Show both longest / shortest comment
-                        Console.WriteLine($"\n3. Your longest comments is \n\"{LongestComment.Item2}\" \nOn account: \"{LongestComment.Item1}\" " +
-                            $"\n\nAnd your shortest comments is \n\"{ShortestComment.Item2}\" \nOn account: \"{LongestComment.Item1}\"");
-                        break;
-                    case ConsoleKey.D4://Show top accounts with most comments
-                        var maxNum = ConsoleHelper.GetNum($"\n4.How many accounts do you want so see? max: {AllTimeComments.Count}", AllTimeComments.Count);
+                    case ConsoleKey.D2://Show top accounts with most comments
+                        var maxNum = ConsoleHelper.GetNum($"\n2.How many accounts do you want so see? max: {AllTimeComments.Count}", AllTimeComments.Count);
                         var commentsD4 = OrderAllTimeComments(maxNum);
                         ConsoleHelper.WriteAndColorLine($"\nTop {maxNum} accounts with most comments\n", ConsoleColor.Cyan);
                         PrintComments(commentsD4);
                         break;
-                    case ConsoleKey.D5://Show top accounts with most comments in a specific year
-                        string currentYear = ConsoleHelper.GetChoice("\n5.Pick a year: ", YearBasedComments.Keys.ToArray());
+                    case ConsoleKey.D3://Show top accounts with most comments in a specific year
+                        string currentYear = ConsoleHelper.GetChoice("\n3.Pick a year: ", YearBasedComments.Keys.ToArray());
                         var currentYearValue = YearBasedComments[currentYear];
-                        int maxNumD5 = ConsoleHelper.GetNum($"\n4.How many accounts do you want so see? max: {currentYearValue.Count}", currentYearValue.Count);
+                        int maxNumD5 = ConsoleHelper.GetNum($"\nHow many accounts do you want so see? max: {currentYearValue.Count}", currentYearValue.Count);
                         var commentsD5 = OrderAllTimeComments(maxNumD5);
                         ConsoleHelper.WriteAndColorLine($"\nTop {maxNumD5} accounts with most comments in {currentYear}\n", ConsoleColor.Cyan);
                         PrintComments(commentsD5);
                         break;
-                    case ConsoleKey.D6://Show all comments based on an account
+                    case ConsoleKey.D4://Show all comments based on an account
                         while (true)
                         {
-                            var name = ConsoleHelper.GetValueWithColor("\n6.Input your account name: ", ConsoleColor.Cyan);
+                            var name = ConsoleHelper.GetValueWithColor("\n4.Input your account name: ", ConsoleColor.Cyan);
+                            if (name == ExitKeyword) break;
                             if (AllTimeComments.ContainsKey(name))
                             {
                                 var comments = AllTimeComments[name];
@@ -71,11 +65,12 @@ namespace Instagram_Data_Statistics.Data
                             continue;
                         }
                         break;
-                    case ConsoleKey.D7://Show comments based on an account in a specific year
-                        var response = ConsoleHelper.GetChoice("\n7.Pick a year: ", YearBasedComments.Keys.ToArray());
+                    case ConsoleKey.D5://Show comments based on an account in a specific year
+                        var response = ConsoleHelper.GetChoice("\n5.Pick a year: ", YearBasedComments.Keys.ToArray());
                         while (true)
                         {
                             var name = ConsoleHelper.GetValueWithColor("Input your account name: ", ConsoleColor.Cyan);
+                            if (name == ExitKeyword) break;
                             var currentYearD7 = YearBasedComments[response];
                             if (currentYearD7.ContainsKey(name))
                             {
@@ -88,6 +83,8 @@ namespace Instagram_Data_Statistics.Data
                             continue;
                         }
                         break;
+                    case ConsoleKey.D6:
+                        return;
                     case ConsoleKey.Escape:
                         Environment.Exit(0);
                         return;

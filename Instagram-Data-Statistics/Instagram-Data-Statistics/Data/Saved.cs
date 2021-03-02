@@ -108,7 +108,7 @@ namespace Instagram_Data_Statistics.Data
                     "\n4.Search for an account"+
                     "\n5.Search for an account in a specific year"+
                     "\n6.Show stats based on years"+
-                    "\n7.Go back " +
+                    "\n7.Go to main menu" +
                     "\nEsc. Exit application");
                 var action = Console.ReadKey(true).Key;
                 switch (action)
@@ -172,6 +172,7 @@ namespace Instagram_Data_Statistics.Data
             while (true)
             {
                 var name = ConsoleHelper.GetValue("\nInput an account name");
+                if (name == ExitKeyword) break;
                 var account = GetAccountFrom(data, name);
                 if (account != null)
                 {

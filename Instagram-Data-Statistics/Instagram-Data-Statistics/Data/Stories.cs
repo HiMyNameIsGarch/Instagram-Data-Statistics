@@ -24,6 +24,7 @@ namespace Instagram_Data_Statistics.Data
                     "\n2.Emoji Sliders " +
                     "\n3.Countdowns " +
                     "\n4.Quizzes " +
+                    "\n5.Go to main menu"+
                     "\nEsc. Exit Application");
                 var action = Console.ReadKey(true).Key;
                 switch (action)
@@ -44,6 +45,8 @@ namespace Instagram_Data_Statistics.Data
                         Console.WriteLine("Quizzes:");
                         StoryType = StoryType.Quizzes;
                         break;
+                    case ConsoleKey.D5:
+                        return;
                     case ConsoleKey.Escape:
                         Environment.Exit(0);
                         break;
@@ -115,6 +118,7 @@ namespace Instagram_Data_Statistics.Data
                         while (true)
                         {
                             string accName = ConsoleHelper.GetValue("\n3.Input an account name: ");
+                            if (accName == ExitKeyword) break;
                             int totalResponsesInAcc = 0;
                             foreach (var year in currentData)
                             {
@@ -138,6 +142,7 @@ namespace Instagram_Data_Statistics.Data
                         break;
                     case ConsoleKey.D4:
                         string accountName = ConsoleHelper.GetValue("\n4.Input an account name: ");
+                        if (accountName == ExitKeyword) return;
                         foreach (var year in currentData)
                         {
                             int totalResponses = 0;
@@ -157,6 +162,7 @@ namespace Instagram_Data_Statistics.Data
                         while (true)
                         {
                             string accNameD5 = ConsoleHelper.GetValue("\nInput an account name: ");
+                            if (accNameD5 == ExitKeyword) break;
                             var yearData = currentData[yearD5];
                             if (yearData.ContainsKey(accNameD5))
                             {

@@ -19,7 +19,13 @@ namespace Instagram_Data_Statistics.Data
             while (true)
             {
                 ConsoleHelper.WriteAndColorLine(Delimitator, ConsoleColor.Green);
-                Console.WriteLine("There are 3 types of seen content: Chaining seen, Posts and Videos \nChoose what you want to do on: \n1.Chaining seen \n2.Posts \n3.Videos");
+                Console.WriteLine("There are 3 types of seen content: Chaining seen, Posts and Videos " +
+                    "\nChoose what you want to do on:" +
+                    "\n1.Chaining seen" +
+                    "\n2.Posts" +
+                    "\n3.Videos" +
+                    "\n4.Go to main menu"+
+                    "\nEsc.Exit application");
                 var action = Console.ReadKey(true).Key;
                 switch (action)
                 {
@@ -60,6 +66,8 @@ namespace Instagram_Data_Statistics.Data
                         SeenType = SeenContentType.Videos;
                         DisplayOptionsFor();
                         break;
+                    case ConsoleKey.D4:
+                        return;
                     case ConsoleKey.Escape:
                         Environment.Exit(0);
                         return;
@@ -82,6 +90,7 @@ namespace Instagram_Data_Statistics.Data
             while (true)
             {
                 string accountName = ConsoleHelper.GetValue("\nInput an account name: ");
+                if (accountName == ExitKeyword) break;
                 string date = string.Empty;
                 bool accFound = false;
                 foreach (var account in models)

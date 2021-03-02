@@ -8,7 +8,6 @@ namespace Instagram_Data_Statistics.Data
     {
         public AccountHistory(string basePath) : base(basePath, "account_history")
         {
-
         }
         public void DisplayOptions()
         {
@@ -18,6 +17,7 @@ namespace Instagram_Data_Statistics.Data
                 Console.WriteLine("\nWhat do you want to do next? " +
                     "\n1.Information about you since you first registered on Instagram " +
                     "\n2.How many times you logged in or logged out " +
+                    "\n3.Go to main menu"+
                     "\nEsc.To exit");
                 var action = Console.ReadKey(true).Key;
                 switch (action)
@@ -32,6 +32,8 @@ namespace Instagram_Data_Statistics.Data
                     case ConsoleKey.D2:
                         Console.WriteLine("\n2.You logged in {0} times and logged out {1} times.", Data.login_history.Count(), Data.logout_history.Count());
                         break;
+                    case ConsoleKey.D3:
+                        return;
                     case ConsoleKey.Escape:
                         Environment.Exit(0);
                         return;

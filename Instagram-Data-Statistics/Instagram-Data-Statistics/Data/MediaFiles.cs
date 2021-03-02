@@ -22,6 +22,7 @@ namespace Instagram_Data_Statistics.Data
                 Console.WriteLine("What do you want to do next? " +
                     "\n1.Show media files based on year" +
                     "\n2.Show stories that include music" +
+                    "\n3.Go to main menu"+
                     "\nEsc. Exit application");
                 var action = Console.ReadKey(true).Key;
                 switch (action)
@@ -78,7 +79,7 @@ namespace Instagram_Data_Statistics.Data
                     case ConsoleKey.D2://Show stories that include music
                         var storiesWithMusic = Data.stories.Where(s => s.music_genres != null);
                         int maxStories = storiesWithMusic.Count();
-                        var maxNumOfStories = ConsoleHelper.GetNum($"\nHow many stories that include music  do you want to see, max: {maxStories}", maxStories);
+                        var maxNumOfStories = ConsoleHelper.GetNum($"\nHow many stories that include music do you want to see, max: {maxStories}", maxStories);
                         foreach (var story in storiesWithMusic.Take(maxNumOfStories))
                         {
                             Console.WriteLine("\nTitle: {0}", string.IsNullOrEmpty(story.caption) ? "none" : story.caption);
@@ -87,6 +88,8 @@ namespace Instagram_Data_Statistics.Data
                             Console.WriteLine("And you can find it at \"{0}\"", story.path);
                         }
                         break;
+                    case ConsoleKey.D3:
+                        return;
                     case ConsoleKey.Escape:
                         Environment.Exit(0);
                         return;
