@@ -96,9 +96,7 @@ namespace Instagram_Data_Statistics
                 foreach (var option in options)
                 {
                     if(option == response)
-                    {
                         return response;
-                    }
                 }
                 WaitAndClearLines(2, 2000, "Ooops, that response is invalid!");
             }

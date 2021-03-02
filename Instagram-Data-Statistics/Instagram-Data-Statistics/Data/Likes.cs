@@ -42,11 +42,11 @@ namespace Instagram_Data_Statistics.Data
                 {
                     case ConsoleKey.D1://Show top accounts of all time
                         int maxValue = CurrentLikes.Item1.Count;
-                        var number = ConsoleHelper.GetNum($"\n1.How many account do you want to see, max: {maxValue}", maxValue);
+                        var number = ConsoleHelper.GetNum($"\n1.How many accounts do you want to see, max: {maxValue}", maxValue);
                         ConsoleHelper.ShowList(CurrentLikes.Item1, number);
                         break;
                     case ConsoleKey.D2://Show top accounts per year
-                        var numberYear = ConsoleHelper.GetNum("\n2.How many account do you want to see:");
+                        var numberYear = ConsoleHelper.GetNum("\n2.How many accounts do you want to see:");
                         foreach (var year in CurrentLikes.Item2)
                         {
                             ConsoleHelper.WriteAndColorLine($"\nTop {numberYear} accounts in {year.Key}: ", ConsoleColor.Cyan);
@@ -56,7 +56,7 @@ namespace Instagram_Data_Statistics.Data
                     case ConsoleKey.D3://Show top accounts based on year
                         var response = ConsoleHelper.GetChoice("\n3.Pick a year: ", CurrentLikes.Item2.Keys.ToArray());
                         var currentYear3 = CurrentLikes.Item2[response];
-                        var accNum = ConsoleHelper.GetNum($"\nHow many account do you want to see, max: {currentYear3.Count}", currentYear3.Count);
+                        var accNum = ConsoleHelper.GetNum($"\nHow many accounts do you want to see, max: {currentYear3.Count}", currentYear3.Count);
                         ConsoleHelper.WriteAndColorLine($"In {response}: ", ConsoleColor.Cyan);
                         ConsoleHelper.ShowList(currentYear3, accNum);
                         break;
@@ -133,26 +133,9 @@ namespace Instagram_Data_Statistics.Data
         {
             var allLikesDic = new Dictionary<string,int>();
             var yearLikesDic = new Dictionary<string, Dictionary<string, int>>();
-            foreach (var like  in data)
-            {
-                var mainKey = like[0].Substring(0, 4);
-                var secondKey = like[1];
-                if (yearLikesDic.ContainsKey(mainKey))
-                {
-                    var currentYear = yearLikesDic[mainKey];
-                    if (currentYear.ContainsKey(secondKey))
-                        currentYear[secondKey]++;
-                    else
-                        currentYear.Add(secondKey, 1);
-                }
-                else
-                    yearLikesDic.Add(mainKey, new Dictionary<string, int>() { { secondKey, 1 } });
-
-                if (allLikesDic.ContainsKey(secondKey))
-                    allLikesDic[secondKey]++;
-                else
-                    allLikesDic.Add(secondKey, 1);
-            }
+            var baseData = DictionaryHelper.GetMultipleDic(data);
+            yearLikesDic = baseData.Item2;
+            allLikesDic = baseData.Item1;
             //order dictionaries
             allLikesDic = allLikesDic.OrderByDescending(s => s.Value).ToDictionary((keyItem) => keyItem.Key, (valueItem) => valueItem.Value);
             foreach (var year in yearLikesDic.ToList())
