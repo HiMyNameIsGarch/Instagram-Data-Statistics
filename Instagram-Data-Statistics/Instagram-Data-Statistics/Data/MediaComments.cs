@@ -20,7 +20,8 @@ namespace Instagram_Data_Statistics.Data
             while (true)
             {
                 ConsoleHelper.WriteAndColorLine(Delimitator, ConsoleColor.Green);
-                Console.WriteLine($"\nYou have a total of {TotalComments} comments, what do you want to do next? " +
+                ConsoleHelper.WriteAndColorLine(AdditionalInformation, ConsoleColor.Cyan);
+                Console.WriteLine($"\nWhat do you want to do next? " +
                     "\n1.Show longest and shortest comment" +
                     "\n2.Show top accounts with most comments" +
                     "\n3.Show top accounts with most comments in a specific year" +
@@ -107,6 +108,7 @@ namespace Instagram_Data_Statistics.Data
             var organizedData = StoreData(Data);
             YearBasedComments = organizedData.Item2;
             AllTimeComments = organizedData.Item1;
+            AdditionalInformation = $"\nYou have a total of {TotalComments} comments";
         }
         private void PrintComments(IEnumerable<Tuple<string, IEnumerable<string>>> comments)
         {

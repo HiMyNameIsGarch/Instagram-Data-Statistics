@@ -19,8 +19,8 @@ namespace Instagram_Data_Statistics.Data
             while (true)
             {
                 ConsoleHelper.WriteAndColorLine(Delimitator, ConsoleColor.Green);
-                Console.WriteLine("There are 3 types of seen content: Chaining seen, Posts and Videos " +
-                    "\nChoose what you want to do on:" +
+                ConsoleHelper.WriteAndColorLine("\nThere are 3 types of seen content: Chaining seen, Posts and Videos ", ConsoleColor.Cyan);
+                Console.WriteLine("\nChoose what you want to do on:" +
                     "\n1.Chaining seen" +
                     "\n2.Posts" +
                     "\n3.Videos" +
@@ -33,7 +33,7 @@ namespace Instagram_Data_Statistics.Data
                         var response = ConsoleHelper.GetChoice("\n1.Choose what do you want to see:" +
                             " \n1.Search for an account" +
                             " \n2.Search for an account in a specific year"+
-                            " \n3.See stats based on years", new ConsoleKey[] { ConsoleKey.D1 , ConsoleKey.D2, ConsoleKey.D3 });
+                            " \n3.See stats based on years \n4.Go back", new ConsoleKey[] { ConsoleKey.D1 , ConsoleKey.D2, ConsoleKey.D3, ConsoleKey.D4 });
                         switch (response)
                         {
                             case ConsoleKey.D1://search for an account
@@ -55,6 +55,8 @@ namespace Instagram_Data_Statistics.Data
                                 {
                                     Console.WriteLine($"In {year.Key}: You saw {year.Value.Count} accounts but never interact!");
                                 }
+                                break;
+                            case ConsoleKey.D4:
                                 break;
                         }
                         break;

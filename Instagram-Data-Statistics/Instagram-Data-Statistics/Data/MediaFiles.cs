@@ -11,7 +11,6 @@ namespace Instagram_Data_Statistics.Data
         public MediaFiles(string basePath) : base(basePath, "media")
         {
         }
-        private string AdditionalInformation;
         private SortedDictionary<string, MediaJsonData> YearBasedData { get; set; }
         public void DisplayOptions()
         {

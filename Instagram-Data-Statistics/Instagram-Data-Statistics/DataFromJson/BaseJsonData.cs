@@ -29,6 +29,7 @@ namespace Instagram_Data_Statistics.DataFromJson
         private const string FileExtension = ".json";
         public const string Delimitator = "\n------------------------------------------------------------";
         public const string ExitKeyword = "EXIT";
+        public string AdditionalInformation = string.Empty;
         public string PathToJson { get; protected set; }
         public string DataFromFile { get; protected set; }
         public K Data { get; private set; }

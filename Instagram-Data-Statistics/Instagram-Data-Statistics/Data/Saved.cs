@@ -11,17 +11,17 @@ namespace Instagram_Data_Statistics.Data
         public Saved(string basePath) : base(basePath, "saved")
         {
         }
-        private string AdditionalInformation = string.Empty;
         private YearBasedSavedData UserData = new YearBasedSavedData();
         public void DisplayOptions()
         {
             while (true)
             {
                 ConsoleHelper.WriteAndColorLine(Delimitator, ConsoleColor.Green);
-                Console.WriteLine(AdditionalInformation);
+                ConsoleHelper.WriteAndColorLine(AdditionalInformation, ConsoleColor.Cyan);
                 Console.WriteLine("\nChoose what media do you want to see next: " +
                     "\n1.Collections " +
                     "\n2.All media " +
+                    "\n3.Go to main menu"+
                     "\nEsc. Exit Application");
                 var action = Console.ReadKey(true).Key;
                 switch (action)
@@ -75,6 +75,8 @@ namespace Instagram_Data_Statistics.Data
                     case ConsoleKey.D2:
                         DisplayOptionsFor(new Tuple<Dictionary<string, int>, Dictionary<string, Dictionary<string, int>>>(UserData.Media, UserData.YearBasedMedia));
                         break;
+                    case ConsoleKey.D3:
+                        return;
                     case ConsoleKey.Escape:
                         Environment.Exit(0);
                         return;

@@ -11,7 +11,6 @@ namespace Instagram_Data_Statistics.Data
         public Connections(string basePath) : base(basePath, "connections")
         {
         }
-        private string AdditionalInformation = string.Empty;
         private YearBasedConnectionsData UserData = null;
         private ConnectionType CurrentConnectionType;
         public void DisplayOptions()
