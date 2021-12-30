@@ -11,9 +11,9 @@ namespace Instagram_Data_Statistics.DataFromJson
         public BaseJsonData(string basePath, string fileName)
         {
             //make sure that the path to file is correct
-            if(basePath.Last() != '\\')
+            if(basePath.Last() != '/')
             {
-                basePath += "\\";
+                basePath += "/";
             }
             if (fileName.StartsWith("\\"))
             {
@@ -58,6 +58,7 @@ namespace Instagram_Data_Statistics.DataFromJson
                 return;
             }
             ConsoleHelper.WriteAndColorLine("\nThe file does not exist double check for the path to it! \nPress any key to exit!", ConsoleColor.Red);
+            Console.WriteLine(PathToJson);
             Console.ReadKey();
             Environment.Exit(0);
         }
