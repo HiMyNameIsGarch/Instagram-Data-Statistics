@@ -1,8 +1,6 @@
 # Instagram Data Statistics
-> DEPRECATED 
-<br>
-Instagram changed their json data format, so this program is useless now.
-<br>
+> DEPRECATED <br>
+> Instagram changed their json data format, so this program is useless now.
 
 Instagram Data Statistics is a program to help you visualize the data that Instagram gives you.
 
